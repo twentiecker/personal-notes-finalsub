@@ -33,11 +33,16 @@ class NoteInput extends React.Component {
     });
   }
 
+  onSubmitEventHandler(event) {
+    event.preventDefault();
+    this.props.addNote(this.state);
+  }
+
   render() {
     return (
       <div className="note-input">
         <h2>Buat Catatan</h2>
-        <form>
+        <form onSubmit={this.onSubmitEventHandler}>
           <NoteInputTitleCharLimit />
           <input
             className="note-input__title"
