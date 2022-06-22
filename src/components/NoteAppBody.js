@@ -2,6 +2,7 @@ import React from "react";
 import { getInitialData } from "../utils/index";
 import NoteInput from "./NoteInput";
 import NotesList from "./NotesList";
+import NotesListEmptyMessage from "./NotesListEmptyMessage";
 
 class NoteAppBody extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class NoteAppBody extends React.Component {
         <h2>Catatan Aktif</h2>
         <NotesList notes={this.state.notes} />
         <h2>Arsip</h2>
+        <NotesListEmptyMessage />
       </div>
     );
   }
