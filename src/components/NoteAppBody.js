@@ -10,11 +10,31 @@ class NoteAppBody extends React.Component {
     this.state = {
       notes: getInitialData(),
     };
+
+    this.onAddNoteHandler = this.onAddNoteHandler.bind(this);
   }
+
+  onAddNoteHandler({ title, body }) {
+    this.setState((prevState) => {
+      return {
+        notes: [
+          ...prevState.notes,
+          {
+            id: +new Date(),
+            title,
+            body,
+            createdAt: new Date(),
+            archived: false,
+          },
+        ],
+      };
+    });
+  }
+
   render() {
     return (
       <div className="note-app__body">
-        <NoteInput />
+        <NoteInput addNote={this.onAddNoteHandler} />
         <h2>Catatan Aktif</h2>
         <NotesList notes={this.state.notes} />
         <h2>Arsip</h2>
