@@ -13,6 +13,7 @@ class NoteAppBody extends React.Component {
 
     this.onAddNoteHandler = this.onAddNoteHandler.bind(this);
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
+    this.onFilterHandler = this.onFilterHandler.bind(this);
   }
 
   onAddNoteHandler({ title, body }) {
@@ -34,8 +35,21 @@ class NoteAppBody extends React.Component {
 
   onDeleteHandler(id) {
     const notes = this.state.notes.filter((note) => note.id !== id);
+    console.log(notes);
     this.setState({ notes });
   }
+
+  onFilterHandler(id) {
+    const notes = this.state.notes.find((note) => note.id !== id);
+    this.setState({ notes });
+    console.log(notes);
+  }
+
+  // onSearchHandler(title) {
+  //   const notes = this.state.notes.filter((note) => note.title.includes(title));
+  //   this.setState({ notes });
+  //   console.log(notes);
+  // }
 
   render() {
     return (
@@ -43,7 +57,11 @@ class NoteAppBody extends React.Component {
         <NoteInput addNote={this.onAddNoteHandler} />
         <h2>Catatan Aktif</h2>
         {this.state.notes.length !== 0 ? (
-          <NotesList notes={this.state.notes} onDelete={this.onDeleteHandler} />
+          <NotesList
+            notes={this.state.notes}
+            onDelete={this.onDeleteHandler}
+            onFilter={this.onFilterHandler}
+          />
         ) : (
           <NotesListEmptyMessage />
         )}
