@@ -3,13 +3,13 @@ import NoteInput from "./NoteInput";
 import NotesList from "./NotesList";
 import NotesListEmptyMessage from "./NotesListEmptyMessage";
 
-function NoteAppBody({ addNote, notes, onDelete, onFilter }) {
+function NoteAppBody({ onAddNote, notes, onDelete, onArchive }) {
   return (
     <div className="note-app__body">
-      <NoteInput addNote={addNote} />
+      <NoteInput onAddNote={onAddNote} />
       <h2>Catatan Aktif</h2>
       {notes.length !== 0 ? (
-        <NotesList notes={notes} onDelete={onDelete} onFilter={onFilter} />
+        <NotesList notes={notes} onDelete={onDelete} onArchive={onArchive} />
       ) : (
         <NotesListEmptyMessage />
       )}

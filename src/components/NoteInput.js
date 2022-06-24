@@ -1,6 +1,7 @@
 import React from "react";
 import NoteInputTitleCharLimit from "./NoteInputTitleCharLimit";
 
+let temp = 0;
 class NoteInput extends React.Component {
   constructor(props) {
     super(props);
@@ -9,6 +10,7 @@ class NoteInput extends React.Component {
     this.state = {
       title: "",
       body: "",
+      count: 50,
     };
 
     this.onTitleChangeEventHandler = this.onTitleChangeEventHandler.bind(this);
@@ -18,10 +20,36 @@ class NoteInput extends React.Component {
 
   onTitleChangeEventHandler(event) {
     this.setState((prevState) => {
-      return {
-        ...prevState,
-        title: event.target.value,
-      };
+      console.log("temp I: " + temp);
+      console.log(event.target.value.length);
+
+      if (event.target.value.length > 50) {
+        alert("Maksimal karakter adalah 50");
+        return;
+      }
+
+      if (temp < event.target.value.length) {
+        temp = event.target.value.length;
+        console.log("temp II: " + temp);
+        return {
+          ...prevState,
+          title: event.target.value,
+          count: prevState.count - 1,
+        };
+      } else {
+        temp = event.target.value.length;
+        return {
+          ...prevState,
+          title: event.target.value,
+          count: prevState.count + 1,
+        };
+      }
+
+      // return {
+      //   ...prevState,
+      //   title: event.target.value,
+      //   count: prevState.count - 1,
+      // };
     });
   }
 
@@ -36,7 +64,7 @@ class NoteInput extends React.Component {
 
   onSubmitEventHandler(event) {
     event.preventDefault();
-    this.props.addNote(this.state);
+    this.props.onAddNote(this.state);
   }
 
   render() {
@@ -44,7 +72,7 @@ class NoteInput extends React.Component {
       <div className="note-input">
         <h2>Buat Catatan</h2>
         <form onSubmit={this.onSubmitEventHandler}>
-          <NoteInputTitleCharLimit />
+          <NoteInputTitleCharLimit count={this.state.count} />
           <input
             className="note-input__title"
             type="text"

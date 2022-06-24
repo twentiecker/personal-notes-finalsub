@@ -8,11 +8,12 @@ class NoteApp extends React.Component {
     super(props);
     this.state = {
       notes: getInitialData(),
+      searchKeyword: "",
     };
 
     this.onAddNoteHandler = this.onAddNoteHandler.bind(this);
     this.onDeleteHandler = this.onDeleteHandler.bind(this);
-    this.onFilterHandler = this.onFilterHandler.bind(this);
+    this.onArchiveHandler = this.onArchiveHandler.bind(this);
     this.onSearchHandler = this.onSearchHandler.bind(this);
   }
 
@@ -35,20 +36,27 @@ class NoteApp extends React.Component {
 
   onDeleteHandler(id) {
     const notes = this.state.notes.filter((note) => note.id !== id);
-    console.log(notes);
-    this.setState({ notes });
+    this.setState((prevState) => {
+      return {
+        ...prevState,
+        notes: notes,
+      };
+    });
   }
 
-  onFilterHandler(id) {
+  onArchiveHandler(id) {
     const notes = this.state.notes.filter((note) => note.id === id);
     this.setState({ notes });
-    console.log(notes);
   }
 
-  onSearchHandler(title) {
-    const notes = this.state.notes.filter((note) => note.id == 1);
-    this.setState({ notes });
-    console.log(notes);
+  onSearchHandler(keyword) {
+    this.setState((prevState) => {
+      return {
+        ...prevState,
+        searchKeyword: keyword,
+      };
+    });
+    // this.setState({ searchKeyword: keyword });
   }
 
   render() {
@@ -56,10 +64,10 @@ class NoteApp extends React.Component {
       <>
         <NoteAppHeader onSearch={this.onSearchHandler} />
         <NoteAppBody
-          addNote={this.onAddNoteHandler}
           notes={this.state.notes}
+          onAddNote={this.onAddNoteHandler}
           onDelete={this.onDeleteHandler}
-          onFilter={this.onFilterHandler}
+          onArchive={this.onArchiveHandler}
         />
       </>
     );

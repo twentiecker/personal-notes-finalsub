@@ -1,7 +1,9 @@
 import React from "react";
 
-function NoteInputTitleCharLimit() {
-  return <p className="note-input__title__char-limit">Sisa Karakter:</p>;
+function NoteInputTitleCharLimit({ count }) {
+  return (
+    <p className="note-input__title__char-limit">Sisa Karakter:{count} </p>
+  );
 }
 
 export default NoteInputTitleCharLimit;

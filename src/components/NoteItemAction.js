@@ -1,6 +1,6 @@
 import React from "react";
 
-function NoteItemAction({ id, onDelete, onFilter }) {
+function NoteItemAction({ id, onDelete, onArchive }) {
   return (
     <div className="note-item__action">
       <button className="note-item__delete-button" onClick={() => onDelete(id)}>
@@ -8,7 +8,7 @@ function NoteItemAction({ id, onDelete, onFilter }) {
       </button>
       <button
         className="note-item__archive-button"
-        onClick={() => onFilter(id)}
+        onClick={() => onArchive(id)}
       >
         Arsipkan
       </button>
