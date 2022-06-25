@@ -25,7 +25,7 @@ class NoteApp extends React.Component {
   onAddNoteHandler({ title, body }) {
     if (
       title.includes(this.state.searchKeyword) &&
-      this.state.searchKeyword != ""
+      this.state.searchKeyword !== ""
     ) {
       this.searchedNotes.push({
         id: +new Date(),
@@ -65,14 +65,6 @@ class NoteApp extends React.Component {
       this.archivedNotes.splice(this.archivedNotes.indexOf(note[0]), 1);
     }
 
-    // if (this.searchedArchivedNotes.length !== 0) {
-    //   const note = this.searchedArchivedNotes.filter((note) => note.id === id);
-    //   this.searchedArchivedNotes.splice(
-    //     this.searchedArchivedNotes.indexOf(note[0]),
-    //     1
-    //   );
-    // }
-
     if (this.searchedNotes.length !== 0) {
       const note = this.searchedNotes.filter((note) => note.id === id);
       this.searchedNotes.splice(this.searchedNotes.indexOf(note[0]), 1);
@@ -100,11 +92,6 @@ class NoteApp extends React.Component {
         1
       );
     }
-
-    // if (this.searchedNotes.length !== 0) {
-    //   const note = this.searchedNotes.filter((note) => note.id === id);
-    //   this.searchedNotes.splice(this.searchedNotes.indexOf(note[0]), 1);
-    // }
   }
 
   onArchiveHandler(id) {
