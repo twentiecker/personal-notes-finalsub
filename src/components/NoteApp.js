@@ -8,7 +8,7 @@ class NoteApp extends React.Component {
     super(props);
     this.archivedNotes = [];
     this.searchedNotes = [];
-    this.searchedarchivedNotes = [];
+    this.searchedArchivedNotes = [];
     this.state = {
       notes: getInitialData(),
       searchKeyword: "",
@@ -19,6 +19,7 @@ class NoteApp extends React.Component {
     this.onArchiveHandler = this.onArchiveHandler.bind(this);
     this.onUnArchiveHandler = this.onUnArchiveHandler.bind(this);
     this.onSearchHandler = this.onSearchHandler.bind(this);
+    this.onDeleteHandlerArchived = this.onDeleteHandlerArchived.bind(this);
   }
 
   onAddNoteHandler({ title, body }) {
@@ -63,6 +64,47 @@ class NoteApp extends React.Component {
       const note = this.archivedNotes.filter((note) => note.id === id);
       this.archivedNotes.splice(this.archivedNotes.indexOf(note[0]), 1);
     }
+
+    // if (this.searchedArchivedNotes.length !== 0) {
+    //   const note = this.searchedArchivedNotes.filter((note) => note.id === id);
+    //   this.searchedArchivedNotes.splice(
+    //     this.searchedArchivedNotes.indexOf(note[0]),
+    //     1
+    //   );
+    // }
+
+    if (this.searchedNotes.length !== 0) {
+      const note = this.searchedNotes.filter((note) => note.id === id);
+      this.searchedNotes.splice(this.searchedNotes.indexOf(note[0]), 1);
+    }
+  }
+
+  onDeleteHandlerArchived(id) {
+    const notes = this.state.notes.filter((note) => note.id !== id);
+    this.setState((prevState) => {
+      return {
+        ...prevState,
+        notes: notes,
+      };
+    });
+
+    if (this.archivedNotes.length !== 0) {
+      const note = this.archivedNotes.filter((note) => note.id === id);
+      this.archivedNotes.splice(this.archivedNotes.indexOf(note[0]), 1);
+    }
+
+    if (this.searchedArchivedNotes.length !== 0) {
+      const note = this.searchedArchivedNotes.filter((note) => note.id === id);
+      this.searchedArchivedNotes.splice(
+        this.searchedArchivedNotes.indexOf(note[0]),
+        1
+      );
+    }
+
+    // if (this.searchedNotes.length !== 0) {
+    //   const note = this.searchedNotes.filter((note) => note.id === id);
+    //   this.searchedNotes.splice(this.searchedNotes.indexOf(note[0]), 1);
+    // }
   }
 
   onArchiveHandler(id) {
@@ -79,7 +121,7 @@ class NoteApp extends React.Component {
 
     const searchArchive = this.searchedNotes.filter((note) => note.id === id);
     this.searchedNotes.splice(this.searchedNotes.indexOf(searchArchive[0]), 1);
-    this.searchedarchivedNotes.push(searchArchive[0]);
+    this.searchedArchivedNotes.push(searchArchive[0]);
   }
 
   onUnArchiveHandler(id) {
@@ -92,11 +134,11 @@ class NoteApp extends React.Component {
       };
     });
 
-    const searchNote = this.searchedarchivedNotes.filter(
+    const searchNote = this.searchedArchivedNotes.filter(
       (note) => note.id === id
     );
-    this.searchedarchivedNotes.splice(
-      this.searchedarchivedNotes.indexOf(searchNote[0]),
+    this.searchedArchivedNotes.splice(
+      this.searchedArchivedNotes.indexOf(searchNote[0]),
       1
     );
     this.searchedNotes.push(searchNote[0]);
@@ -104,7 +146,7 @@ class NoteApp extends React.Component {
 
   onSearchHandler(keyword) {
     this.searchedNotes = [];
-    this.searchedarchivedNotes = [];
+    this.searchedArchivedNotes = [];
 
     for (const note of [...this.state.notes]) {
       if (note.title.toLowerCase().includes(keyword.toLowerCase())) {
@@ -114,7 +156,7 @@ class NoteApp extends React.Component {
 
     for (const note of [...this.archivedNotes]) {
       if (note.title.toLowerCase().includes(keyword.toLowerCase())) {
-        this.searchedarchivedNotes.push(note);
+        this.searchedArchivedNotes.push(note);
       }
     }
 
@@ -133,11 +175,12 @@ class NoteApp extends React.Component {
         {this.state.searchKeyword ? (
           <NoteAppBody
             notes={this.searchedNotes}
-            archivedNotes={this.searchedarchivedNotes}
+            archivedNotes={this.searchedArchivedNotes}
             onUnArchive={this.onUnArchiveHandler}
             onAddNote={this.onAddNoteHandler}
             onDelete={this.onDeleteHandler}
             onArchive={this.onArchiveHandler}
+            onDeleteArchive={this.onDeleteHandlerArchived}
           />
         ) : (
           <NoteAppBody
@@ -147,6 +190,7 @@ class NoteApp extends React.Component {
             onAddNote={this.onAddNoteHandler}
             onDelete={this.onDeleteHandler}
             onArchive={this.onArchiveHandler}
+            onDeleteArchive={this.onDeleteHandlerArchived}
           />
         )}
       </>

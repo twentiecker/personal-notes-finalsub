@@ -10,6 +10,7 @@ function NoteAppBody({
   onDelete,
   onArchive,
   onUnArchive,
+  onDeleteArchive,
 }) {
   return (
     <div className="note-app__body">
@@ -30,7 +31,7 @@ function NoteAppBody({
         <NotesList
           notes={archivedNotes}
           archive="Pindahkan"
-          onDelete={onDelete}
+          onDelete={onDeleteArchive}
           onArchive={onUnArchive}
         />
       ) : (
