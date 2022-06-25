@@ -14,6 +14,7 @@ class NoteSearch extends React.Component {
   }
 
   onSearchChangeEventHandler(event) {
+    this.props.onSearch(event.target.value);
     this.setState(() => {
       return {
         keyword: event.target.value,

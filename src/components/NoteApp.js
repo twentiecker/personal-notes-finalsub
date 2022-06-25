@@ -7,6 +7,8 @@ class NoteApp extends React.Component {
   constructor(props) {
     super(props);
     this.archivedNotes = [];
+    this.searchedNotes = [];
+    this.searchedarchivedNotes = [];
     this.state = {
       notes: getInitialData(),
       searchKeyword: "",
@@ -20,6 +22,18 @@ class NoteApp extends React.Component {
   }
 
   onAddNoteHandler({ title, body }) {
+    if (
+      title.includes(this.state.searchKeyword) &&
+      this.state.searchKeyword != ""
+    ) {
+      this.searchedNotes.push({
+        id: +new Date(),
+        title,
+        body,
+        createdAt: new Date(),
+        archived: false,
+      });
+    }
     this.setState((prevState) => {
       return {
         notes: [
@@ -62,6 +76,10 @@ class NoteApp extends React.Component {
         notes: notes,
       };
     });
+
+    const searchArchive = this.searchedNotes.filter((note) => note.id === id);
+    this.searchedNotes.splice(this.searchedNotes.indexOf(searchArchive[0]), 1);
+    this.searchedarchivedNotes.push(searchArchive[0]);
   }
 
   onUnArchiveHandler(id) {
@@ -73,31 +91,79 @@ class NoteApp extends React.Component {
         notes: [...prevState.notes, note[0]],
       };
     });
+
+    const searchNote = this.searchedarchivedNotes.filter(
+      (note) => note.id === id
+    );
+    this.searchedarchivedNotes.splice(
+      this.searchedarchivedNotes.indexOf(searchNote[0]),
+      1
+    );
+    this.searchedNotes.push(searchNote[0]);
   }
 
   onSearchHandler(keyword) {
+    // console.log([...this.state.notes, ...this.archivedNotes]);
+    this.searchedNotes = [];
+    this.searchedarchivedNotes = [];
+
+    for (const note of [...this.state.notes]) {
+      // console.log(note.title);
+      if (note.title.toLowerCase().includes(keyword.toLowerCase())) {
+        this.searchedNotes.push(note);
+      }
+    }
+    console.log(this.searchedNotes);
+
+    for (const note of [...this.archivedNotes]) {
+      // console.log(note.title);
+      if (note.title.toLowerCase().includes(keyword.toLowerCase())) {
+        this.searchedarchivedNotes.push(note);
+      }
+    }
+    console.log(this.searchedarchivedNotes);
+
+    // if (!keyword) {
+    //   this.searchedNotes = this.state.notes;
+    //   // console.log(this.searchedNotes);
+    // } else {
+    //   this.searchedNotes = this.state.notes.filter(
+    //     (note) => note.id == keyword
+    //   );
+    //   // console.log(this.searchedNotes);
+    // }
+
     this.setState((prevState) => {
       return {
         ...prevState,
         searchKeyword: keyword,
       };
     });
-    // this.setState({ searchKeyword: keyword });
   }
 
   render() {
     return (
       <>
         <NoteAppHeader onSearch={this.onSearchHandler} />
-        <NoteAppBody
-          notes={this.state.notes}
-          archivedNotes={this.archivedNotes}
-          onUnArchive={this.onUnArchiveHandler}
-          onAddNote={this.onAddNoteHandler}
-          onDelete={this.onDeleteHandler}
-          onDeleteArchive={this.onDeleteArchiveHandler}
-          onArchive={this.onArchiveHandler}
-        />
+        {this.state.searchKeyword ? (
+          <NoteAppBody
+            notes={this.searchedNotes}
+            archivedNotes={this.searchedarchivedNotes}
+            onUnArchive={this.onUnArchiveHandler}
+            onAddNote={this.onAddNoteHandler}
+            onDelete={this.onDeleteHandler}
+            onArchive={this.onArchiveHandler}
+          />
+        ) : (
+          <NoteAppBody
+            notes={this.state.notes}
+            archivedNotes={this.archivedNotes}
+            onUnArchive={this.onUnArchiveHandler}
+            onAddNote={this.onAddNoteHandler}
+            onDelete={this.onDeleteHandler}
+            onArchive={this.onArchiveHandler}
+          />
+        )}
       </>
     );
   }
