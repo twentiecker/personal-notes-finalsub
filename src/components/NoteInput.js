@@ -2,6 +2,7 @@ import React from "react";
 import NoteInputTitleCharLimit from "./NoteInputTitleCharLimit";
 
 let temp = 0;
+
 class NoteInput extends React.Component {
   constructor(props) {
     super(props);
@@ -20,9 +21,6 @@ class NoteInput extends React.Component {
 
   onTitleChangeEventHandler(event) {
     this.setState((prevState) => {
-      console.log("temp I: " + temp);
-      console.log(event.target.value.length);
-
       if (event.target.value.length > 50) {
         alert("Maksimal karakter adalah 50");
         return;
@@ -30,7 +28,6 @@ class NoteInput extends React.Component {
 
       if (temp < event.target.value.length) {
         temp = event.target.value.length;
-        console.log("temp II: " + temp);
         return {
           ...prevState,
           title: event.target.value,
@@ -44,12 +41,6 @@ class NoteInput extends React.Component {
           count: prevState.count + 1,
         };
       }
-
-      // return {
-      //   ...prevState,
-      //   title: event.target.value,
-      //   count: prevState.count - 1,
-      // };
     });
   }
 
