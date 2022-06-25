@@ -103,35 +103,20 @@ class NoteApp extends React.Component {
   }
 
   onSearchHandler(keyword) {
-    // console.log([...this.state.notes, ...this.archivedNotes]);
     this.searchedNotes = [];
     this.searchedarchivedNotes = [];
 
     for (const note of [...this.state.notes]) {
-      // console.log(note.title);
       if (note.title.toLowerCase().includes(keyword.toLowerCase())) {
         this.searchedNotes.push(note);
       }
     }
-    console.log(this.searchedNotes);
 
     for (const note of [...this.archivedNotes]) {
-      // console.log(note.title);
       if (note.title.toLowerCase().includes(keyword.toLowerCase())) {
         this.searchedarchivedNotes.push(note);
       }
     }
-    console.log(this.searchedarchivedNotes);
-
-    // if (!keyword) {
-    //   this.searchedNotes = this.state.notes;
-    //   // console.log(this.searchedNotes);
-    // } else {
-    //   this.searchedNotes = this.state.notes.filter(
-    //     (note) => note.id == keyword
-    //   );
-    //   // console.log(this.searchedNotes);
-    // }
 
     this.setState((prevState) => {
       return {

@@ -4,7 +4,7 @@ class NoteSearch extends React.Component {
   constructor(props) {
     super(props);
 
-    // inisialisasi state
+    // init state
     this.state = {
       keyword: "",
     };
@@ -35,13 +35,5 @@ class NoteSearch extends React.Component {
     );
   }
 }
-
-// function NoteSearch({ onSearch }) {
-//   return (
-//     <div className="note-search">
-//       <input type="text" placeholder="Cari catatan ..." onChange={onSearch} />
-//     </div>
-//   );
-// }
 
 export default NoteSearch;

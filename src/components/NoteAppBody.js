@@ -11,7 +11,6 @@ function NoteAppBody({
   onArchive,
   onUnArchive,
 }) {
-  // const coba = notes;
   return (
     <div className="note-app__body">
       <NoteInput onAddNote={onAddNote} />
